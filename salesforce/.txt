@@ -1,0 +1,15 @@
+ ·       Form fields validations should be implemented.
+Trigger:
+
+trigger ExecutiveMemos on Executive_Memos__c (before insert, before update) {
+    // Check if the Memo field is empty
+    for(Executive_Memos__c em : Trigger.new) {
+        if(em.Memo__c == null || em.Memo__c == '') {
+            em.addError('Memo cannot be empty');
+        }
+        // Check if the user has access to the executive memo
+        if(!UserInfo.hasAccess('ExecutiveMemos')) {
+            em.addError('You do not have access to Executive Memos');
+        }
+    }
+}
